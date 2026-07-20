@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@mmargauxx/cookie-banner — playground</title>
+
+    <!--
+      Consent Mode v2 default — set BEFORE GA loads so Google respects consent.
+      In a real app this goes in your document <head>; the banner's onAccept
+      callback flips analytics_storage to "granted" (see main.ts).
+    -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('consent', 'default', {
+        ad_storage: 'denied', ad_user_data: 'denied',
+        ad_personalization: 'denied', analytics_storage: 'denied',
+        wait_for_update: 500,
+      });
+      // gtag('config', 'G-XXXX', { send_page_view: false });
+    </script>
+
+    <!-- Tailwind Play CDN — for the demo only. Production: use your build pipeline. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      body { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+      /* In the real world the banner is fixed to the viewport; inside the demo
+         preview box we confine it so `position` options are visible in place. */
+      #preview #cookie-banner { position: absolute; }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased">
+    <main class="w-full px-4 py-6 sm:px-6 sm:py-10 lg:px-10">
+      <header class="mb-8">
+        <h1 class="text-xl sm:text-2xl font-semibold tracking-tight">@mmargauxx/cookie-banner</h1>
+        <p class="mt-2 text-slate-600 max-w-2xl">
+          Live playground. Tweak the options on the left — accent color (or a
+          custom hex), font, radius, position — and watch the banner update in
+          the preview on the right. Or pull a real site’s colors and font in one
+          click. Copy the config at the bottom into your own
+          <code class="text-sm bg-slate-100 px-1 py-0.5 rounded">initCookieBanner()</code> call.
+        </p>
+      </header>
+
+      <div class="grid gap-8 lg:gap-12 lg:grid-cols-2 items-start">
+        <!-- LEFT: controls (generated in main.ts). -->
+        <section id="controls" class="min-w-0 space-y-7"></section>
+
+        <!-- RIGHT: preview box + actions + config, sticky on desktop. -->
+        <div class="min-w-0 lg:sticky lg:top-8 space-y-4">
+          <div class="text-xs font-medium uppercase tracking-wide text-slate-500">Preview</div>
+
+          <div id="preview" class="relative w-full overflow-hidden rounded-2xl border border-slate-200 bg-white h-72 sm:h-[28rem] shadow-sm">
+            <!-- Faux site behind the banner, so position/color read in context. -->
+            <div class="absolute inset-0 select-none pointer-events-none">
+              <div class="h-9 flex items-center gap-1.5 px-3 border-b border-slate-100 bg-slate-50">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-300"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-300"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-300"></span>
+                <span class="ml-3 h-4 flex-1 max-w-[12rem] rounded bg-slate-200"></span>
+              </div>
+              <div class="p-6 space-y-3">
+                <div class="h-5 w-1/2 rounded bg-slate-200"></div>
+                <div class="h-3 w-full rounded bg-slate-100"></div>
+                <div class="h-3 w-5/6 rounded bg-slate-100"></div>
+                <div class="h-3 w-4/6 rounded bg-slate-100"></div>
+                <div class="mt-6 h-28 w-full rounded-xl bg-slate-100"></div>
+              </div>
+            </div>
+            <!-- #cookie-banner is mounted here by main.ts and re-rendered on change. -->
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <button id="reopen" class="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-sm cursor-pointer">
+              Re-open banner
+            </button>
+            <button id="forget" class="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-sm cursor-pointer">
+              Reset decision
+            </button>
+          </div>
+
+          <div>
+            <div class="text-xs font-medium uppercase tracking-wide text-slate-500 mb-2">Config</div>
+            <pre id="snippet" class="text-xs leading-relaxed bg-slate-900 text-slate-100 rounded-xl p-4 overflow-x-auto"></pre>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
