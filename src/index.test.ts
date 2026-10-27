@@ -225,4 +225,15 @@ describe('initCookieBanner', () => {
     handle.close();
     expect(banner().style.pointerEvents).toBe('none');
   });
+
+  it('makes the hidden banner inert so its controls are not focusable', () => {
+    expect(createCookieBanner()).toMatch(/<div id="cookie-banner"[^>]*\sinert[\s>]/);
+    localStorage.setItem(KEY, 'accepted');
+    const handle = initCookieBanner();
+    expect(banner().hasAttribute('inert')).toBe(true);
+    handle.open();
+    expect(banner().hasAttribute('inert')).toBe(false);
+    handle.close();
+    expect(banner().hasAttribute('inert')).toBe(true);
+  });
 });

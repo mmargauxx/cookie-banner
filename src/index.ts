@@ -325,7 +325,7 @@ export function createCookieBanner(opts: CookieBannerOptions = {}): string {
   // Empty for named presets; a scoped <style> block for a custom accent/font.
   const accentStyle = customStyleBlock(o.theme, o.font);
   return /*html*/ `
-    <div id="cookie-banner" role="dialog" aria-label="Cookie consent" aria-hidden="true"
+    <div id="cookie-banner" role="dialog" aria-label="Cookie consent" aria-hidden="true" inert
       class="${c.wrapper}" style="opacity:0;pointer-events:none">
       ${accentStyle}
       <p data-cookie-text class="${c.text}">
@@ -357,7 +357,10 @@ export function initCookieBanner(opts: CookieBannerOptions = {}): CookieBannerHa
     banner = document.getElementById('cookie-banner')!;
   }
 
+  // Hidden = transparent (so it can fade) *and* `inert`, so the invisible
+  // buttons/link can't be tabbed to, focused, or clicked.
   const open = (): void => {
+    banner!.removeAttribute('inert');
     banner!.style.opacity = '1';
     banner!.style.pointerEvents = 'auto';
     banner!.setAttribute('aria-hidden', 'false');
@@ -366,6 +369,7 @@ export function initCookieBanner(opts: CookieBannerOptions = {}): CookieBannerHa
     banner!.style.opacity = '0';
     banner!.style.pointerEvents = 'none';
     banner!.setAttribute('aria-hidden', 'true');
+    banner!.setAttribute('inert', '');
   };
   const choose = (value: string, cb: (() => void) | null): void => {
     localStorage.setItem(o.storageKey, value);

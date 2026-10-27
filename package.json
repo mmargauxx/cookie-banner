@@ -1,6 +1,6 @@
 {
   "name": "@mmargauxx/cookie-banner",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Tiny, framework-agnostic cookie consent banner (vanilla JS + Tailwind). Configurable copy, classes, and callbacks; returns open/close/reset handles.",
   "license": "MIT",
   "author": "Margaux Laurier <info@margaux.dev>",
